@@ -14,7 +14,7 @@ def main():
     # Get data from file
     filename = sys.argv[1]
     if filename is None:
-        print("No filename specified. example: main.py ./path.txt");
+        print("No filename specified. example: setup.py ./path.txt");
         exit(1)
 
     # Read from file
