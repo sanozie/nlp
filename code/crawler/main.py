@@ -98,7 +98,9 @@ def build_data():
                 if term in sent:
                     data[term].append(sent)
 
-    print(data)
+    with open("output.pickle", "wb") as handle:
+        pickle.dump(data, handle, protocol=pickle.HIGHEST_PROTOCOL)
+
 
 scrape()
 clean()
