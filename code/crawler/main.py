@@ -1,5 +1,4 @@
 import re
-import nltk
 from nltk.corpus import stopwords
 from nltk.tokenize import word_tokenize, sent_tokenize
 import pickle
@@ -9,16 +8,18 @@ import requests
 from bs4 import BeautifulSoup
 from sklearn.feature_extraction.text import TfidfVectorizer
 
+# Add constants for use
 max_link_count = 15
 stop_words = set(stopwords.words('english'))
 
 
 def scrape():
+    # Use breadth first iteration on the first link to scrape related links
     queue = ['https://en.wikipedia.org/wiki/Fiber-optic_cable']
-    search_param = []
     count = 0
     url_match = r'(http|ftp|https):\/\/([\w\-_]+(?:(?:\.[\w\-_]+)+))([\w\-\.,@?^=%&:/~\+#]*[\w\-\@?^=%&/~\+#])?'
 
+    # Check to see if we've used enough links
     while len(queue) != 0 and count < max_link_count:
         url = queue[0]
         del queue[0]
@@ -26,20 +27,19 @@ def scrape():
         print(url)
         response = requests.get(url)
         soup = BeautifulSoup(response.text, 'html.parser')
-        text = soup.find_all(text=True)
 
         for data in soup(['style', 'script']):
             # Remove tags
             data.decompose()
 
-            # return data by retrieving the tag content
+        # get only text from url. Write result to file
         output = ' '.join(soup.stripped_strings)
-        print(output)
-
         with open(f"link_{count}.txt", 'w') as f:
             f.write(output)
 
         count += 1
+
+        # find the next valid url
         for link in soup.findAll('a'):
             link = link.get('href')
             print(link)
@@ -60,6 +60,7 @@ def clean():
 
 
 def freq():
+    # Use Vectorizer to determine importance of words.
     vectorizer = TfidfVectorizer()
     documents = []
     for i in range(max_link_count):
@@ -84,11 +85,13 @@ def freq():
 
 
 def build_data():
+    # list of terms deemed important by vectorizor and domain expert
     term_list = ['fiber', 'cables', 'cord', 'light', 'optic', 'jacket', 'fibers', 'software', 'electrical', 'traffic']
     data = {}
     for term in term_list:
         data[term] = []
 
+    # add sentences to this dictionary if a term exists in the sentence
     for i in range(max_link_count):
         with open(f'sent_token_{i}.pickle', 'rb') as handle:
             sents = pickle.load(handle)
