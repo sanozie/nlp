@@ -7,3 +7,4 @@ A portfolio for Natural Language Processing
 ### [WordNet](https://sanozie.github.io/nlp/code/wordnet)
 ### [Guessing](https://sanozie.github.io/nlp/code/guessing)
 ### [Ngrams](https://sanozie.github.io/nlp/code/ngrams)
+### [Web Crawler](https://sanozie.github.io/nlp/code/crawler)
