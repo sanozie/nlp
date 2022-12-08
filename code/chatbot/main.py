@@ -23,7 +23,7 @@ df_cols = ['Friendly_Sociable', 'Competent_Skilled', 'Selfconfident_Assertive', 
            'Wealthy_Highstatus']
 df_dict = {}
 target_set = set()
-threshold = 3.5
+threshold = 3
 incomprehensible_responses = ['No comment. Try again?',
                               "Honestly, I know what you said, but you didn't give me enough details to figure out how I feel. Please try again. ",
                               "Oh, so I'm basically you? \nNo, actually I just didn't get enough info, try again:",
@@ -75,7 +75,6 @@ target_responses = {
             "Looks like people think I'm rich. Good or bad, depending on how you look at it. Anything new?"]
     }
 }
-
 
 
 def main():

@@ -15,7 +15,6 @@ def generate_df():
     df = pd.read_csv('Stereotypes.csv', usecols=[2, 14, 15, 16, 17, 18])
     df['tv'].replace('', np.nan, inplace=True)
     df.dropna(inplace=True)
-    df['tv'].str.lower()
     return df
 
 
@@ -43,9 +42,15 @@ def train(df, col):
     y = df[col]
     X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=1, train_size=7017, random_state=1234)
 
-    classifier = BernoulliNB()
-    classifier.fit(X_train, y_train)
-    pred = classifier.predict(X_test)
+    regressor = MLPRegressor(solver='lbfgs', alpha=1e-5, random_state=1234, max_iter=10000)
+    regressor.fit(X_train, y_train)
 
-    return classifier, vectorizer
+    # print(X_test)
+    # pred = regressor.predict(X_test)
+    #
+    # classifier = BernoulliNB()
+    # classifier.fit(X_train, y_train)
+    # pred = classifier.predict(X_test)
+
+    return regressor, vectorizer
 
